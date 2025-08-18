@@ -65,7 +65,7 @@ export async function interactiveMode(_options: any): Promise<void> {
       {
         type: 'list',
         name: 'action',
-        message: 'What would you like to do?',
+        message: 'What would you like to do? (← Back option available in submenus)',
         choices: menuChoices.map(choice => ({
           name: `${choice.icon}  ${choice.name}`,
           value: choice.value
@@ -77,33 +77,42 @@ export async function interactiveMode(_options: any): Promise<void> {
     console.clear();
     displayBanner();
     
+    let skipPause = false;
+    
     switch (action) {
       case 'status':
-        await handleStatus();
+        const statusResult = await handleStatus();
+        skipPause = statusResult === undefined;
         break;
       
       case 'transfer':
-        await handleTransfer();
+        const transferResult = await handleTransfer();
+        skipPause = transferResult === undefined;
         break;
       
       case 'create-team':
-        await handleCreateTeam();
+        const createResult = await handleCreateTeam();
+        skipPause = createResult === undefined;
         break;
       
       case 'league':
-        await handleLeague();
+        const leagueResult = await handleLeague();
+        skipPause = leagueResult === undefined;
         break;
       
       case 'deadline':
-        await handleDeadline();
+        const deadlineResult = await handleDeadline();
+        skipPause = deadlineResult === undefined;
         break;
       
       case 'captain':
-        await handleCaptain();
+        const captainResult = await handleCaptain();
+        skipPause = captainResult === undefined;
         break;
       
       case 'chip':
-        await handleChip();
+        const chipResult = await handleChip();
+        skipPause = chipResult === undefined;
         break;
       
       case 'simulate':
@@ -115,15 +124,18 @@ export async function interactiveMode(_options: any): Promise<void> {
         break;
       
       case 'history':
-        await handleHistory();
+        const historyResult = await handleHistory();
+        skipPause = historyResult === undefined;
         break;
       
       case 'sync':
-        await handleSync();
+        const syncResult = await handleSync();
+        skipPause = syncResult === undefined;
         break;
       
       case 'settings':
-        await handleSettings();
+        const settingsResult = await handleSettings();
+        skipPause = settingsResult === undefined;
         break;
       
       case 'exit':
@@ -132,7 +144,7 @@ export async function interactiveMode(_options: any): Promise<void> {
         break;
     }
     
-    if (!exit && action !== 'exit') {
+    if (!exit && action !== 'exit' && !skipPause) {
       // Pause before returning to menu
       await inquirer.prompt([
         {
@@ -141,6 +153,9 @@ export async function interactiveMode(_options: any): Promise<void> {
           message: chalk.gray('Press Enter to continue...')
         }
       ]);
+    }
+    
+    if (!exit) {
       console.clear();
     }
   }
@@ -153,6 +168,7 @@ async function handleStatus(): Promise<void> {
       name: 'view',
       message: 'Select view:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Current Gameweek', value: 'current' },
         { name: 'Specific Gameweek', value: 'specific' },
         { name: 'Season Overview', value: 'season' },
@@ -160,6 +176,8 @@ async function handleStatus(): Promise<void> {
       ]
     }
   ]);
+  
+  if (view === 'back') return;
   
   let options: any = {};
   
@@ -187,6 +205,7 @@ async function handleTransfer(): Promise<void> {
       name: 'mode',
       message: 'Transfer mode:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Interactive Transfer', value: 'interactive' },
         { name: 'Quick Transfer', value: 'quick' },
         { name: 'Plan Transfers', value: 'plan' },
@@ -195,6 +214,8 @@ async function handleTransfer(): Promise<void> {
       ]
     }
   ]);
+  
+  if (mode === 'back') return;
   
   const options: any = {};
   
@@ -216,6 +237,7 @@ async function handleCreateTeam(): Promise<void> {
       name: 'method',
       message: 'How would you like to create your team?',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Build from scratch', value: 'scratch' },
         { name: 'Use a template', value: 'template' },
         { name: 'Import from file', value: 'import' },
@@ -223,6 +245,8 @@ async function handleCreateTeam(): Promise<void> {
       ]
     }
   ]);
+  
+  if (method === 'back') return;
   
   const options: any = {};
   
@@ -265,6 +289,7 @@ async function handleLeague(): Promise<void> {
       name: 'action',
       message: 'League action:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'View Standings', value: 'standings' },
         { name: 'Join League', value: 'join' },
         { name: 'Create League', value: 'create' },
@@ -273,6 +298,8 @@ async function handleLeague(): Promise<void> {
       ]
     }
   ]);
+  
+  if (action === 'back') return;
   
   if (action === 'join') {
     const { code } = await inquirer.prompt([
@@ -311,6 +338,7 @@ async function handleDeadline(): Promise<void> {
       name: 'view',
       message: 'Deadline view:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Next Deadline', value: 'next' },
         { name: 'All Deadlines', value: 'all' },
         { name: 'With Fixtures', value: 'fixtures' }
@@ -318,11 +346,15 @@ async function handleDeadline(): Promise<void> {
     }
   ]);
   
+  if (view === 'back') return;
+  
   const options: any = {};
   if (view === 'all') options.all = true;
   if (view === 'fixtures') options.fixtures = true;
   
-  await deadlineCommand(options);
+  if (view !== 'back') {
+    await deadlineCommand(options);
+  }
 }
 
 async function handleCaptain(): Promise<void> {
@@ -332,6 +364,7 @@ async function handleCaptain(): Promise<void> {
       name: 'action',
       message: 'Captain action:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Set Captain', value: 'set' },
         { name: 'Get Suggestions', value: 'suggest' },
         { name: 'View Popular Captains', value: 'popular' }
@@ -339,11 +372,15 @@ async function handleCaptain(): Promise<void> {
     }
   ]);
   
+  if (action === 'back') return;
+  
   const options: any = {};
   if (action === 'suggest') options.suggest = true;
   if (action === 'popular') options.popular = true;
   
-  await captainCommand(options);
+  if (action !== 'back') {
+    await captainCommand(options);
+  }
 }
 
 async function handleChip(): Promise<void> {
@@ -353,6 +390,7 @@ async function handleChip(): Promise<void> {
       name: 'action',
       message: 'Chip action:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'View Available Chips', value: 'status' },
         { name: 'Activate Wildcard', value: 'wildcard' },
         { name: 'Activate Free Hit', value: 'freehit' },
@@ -361,6 +399,8 @@ async function handleChip(): Promise<void> {
       ]
     }
   ]);
+  
+  if (action === 'back') return;
   
   if (action === 'status') {
     await chipCommand('status', '', { check: true });
@@ -419,6 +459,7 @@ async function handleHistory(): Promise<void> {
       name: 'type',
       message: 'History type:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Season Summary', value: 'season' },
         { name: 'Gameweek History', value: 'gameweek' },
         { name: 'Transfer History', value: 'transfers' },
@@ -427,7 +468,11 @@ async function handleHistory(): Promise<void> {
     }
   ]);
   
-  await historyCommand(type, {});
+  if (type === 'back') return;
+  
+  if (type !== 'back') {
+    await historyCommand(type, {});
+  }
 }
 
 async function handleSync(): Promise<void> {
@@ -437,6 +482,7 @@ async function handleSync(): Promise<void> {
       name: 'action',
       message: 'Sync action:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'Pull Latest Changes', value: 'pull' },
         { name: 'Push Your Changes', value: 'push' },
         { name: 'Full Sync', value: 'sync' },
@@ -444,6 +490,8 @@ async function handleSync(): Promise<void> {
       ]
     }
   ]);
+  
+  if (action === 'back') return;
   
   let options: any = {};
   
@@ -477,6 +525,7 @@ async function handleSettings(): Promise<void> {
       name: 'section',
       message: 'Settings section:',
       choices: [
+        { name: '← Back', value: 'back' },
         { name: 'GitHub Configuration', value: 'github' },
         { name: 'Display Preferences', value: 'display' },
         { name: 'Notification Settings', value: 'notifications' },
@@ -485,6 +534,8 @@ async function handleSettings(): Promise<void> {
       ]
     }
   ]);
+  
+  if (section === 'back') return;
   
   if (section === 'reset') {
     const { confirm } = await inquirer.prompt([
