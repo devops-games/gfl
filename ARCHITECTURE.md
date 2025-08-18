@@ -48,8 +48,8 @@ fantasy-football-league/
 │   │   ├── fixtures.json              # Season fixtures
 │   │   └── results.json               # Match results
 │   └── rules/
-│       ├── rules.json                 # Game rules configuration
-│       └── scoring.json               # Scoring system config
+│       ├── rules.yaml                 # Game rules configuration
+│       └── scoring.yaml               # Scoring system config
 │
 ├── teams/
 │   ├── {github-username}/
@@ -68,7 +68,7 @@ fantasy-football-league/
 │   │   └── gameweek-{n}.json          # GW standings
 │   └── private/
 │       └── {league-name}/
-│           ├── config.json            # League settings
+│           ├── config.yaml            # League settings
 │           ├── members.json           # Member list
 │           └── standings.json         # League standings
 │
@@ -113,6 +113,27 @@ fantasy-football-league/
 ├── LICENSE
 └── README.md
 ```
+
+## Data Structures
+
+### Formats
+
+Data will be stored in a couple of different ways:
+
+#### JSON
+- Player databases
+- Team data and history
+- League standings and statistics
+- Gameweek results and points
+- When complex objects and nested data need to be represented
+- Not expected to be edited by humans often
+
+#### YAML
+- Configuration files
+- Application state
+- Game rules and scoring systems
+- League settings
+- When humans are expected to edit it more frequently
 
 ## Data Schemas
 

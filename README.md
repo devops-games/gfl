@@ -6,7 +6,7 @@ A revolutionary approach to Fantasy Football where software engineers use git wo
 
 This isn't just another fantasy football app. It's a game played entirely through git:
 - **Fork & PR Workflow**: Each player forks the repo and submits PRs to make changes
-- **Git as Database**: All team data stored as JSON files in version control
+- **Git as Database**: Team and player data stored as JSON files, configuration as YAML, all in version control
 - **GitHub Actions as Referee**: Automated validation and scoring through CI/CD
 - **Commits as Audit Trail**: Complete history of every decision
 - **DevOps as Gameplay**: Learn professional development workflows while playing

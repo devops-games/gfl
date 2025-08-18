@@ -19,6 +19,13 @@ Data will be stored in a couple of different ways
  - Application state
  - When humans are expected to edit it more frequently
 
+
+## Copyright / Protected FPL data
+
+It might be that we can't store data from FPL, that we get from the API, due to copyright usage. 
+
+We might need to define IDs to be used in lookups via the apis using scripts/application functionality
+
 ### Storage
 
 The optional use of SQL Lite could improve performance for CLI and Web usage
@@ -64,6 +71,11 @@ They may compete in their own division
 # Cryptographic possibilities
 
  - Use of code signing, keys, time delays, unlocks etc?
+
+Each game week a new key pair is generated and the public key shared with the community.
+Users make encrypted commits using the public key
+The private key is released after the embargo and users blind commitments can be viewed and validated
+
 
 
 ## Private leagues

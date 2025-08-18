@@ -1,0 +1,1 @@
+SHA2-256(test-data/teams/Martz/transfer-2025-08-16.json)= 1e38fc7e82d3a7c794ba62a9a51b7885725db0a3c918025b8424f463722b88b0

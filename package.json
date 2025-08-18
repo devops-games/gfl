@@ -1,0 +1,15 @@
+{
+  "name": "fantasy-football-docs",
+  "version": "1.0.0",
+  "description": "A revolutionary approach to Fantasy Football where software engineers use git workflows, pull requests, and CI/CD pipelines to manage their teams. This is the world's first \"Infrastructure as Game\" implementation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "sh -c 'openssl dgst -sha256 \"$1\" > commitment.txt' --",
+    "commit:transfer": "npm run commit test-data/transfer-2025-08-16.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

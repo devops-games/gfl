@@ -3,13 +3,56 @@
 Complete API reference for the Fantasy Football League data structures, validation rules, and external integrations.
 
 ## Table of Contents
-1. [Data Schemas](#data-schemas)
-2. [Validation API](#validation-api)
-3. [Scoring API](#scoring-api)
-4. [External APIs](#external-apis)
-5. [GitHub Actions API](#github-actions-api)
-6. [CLI API](#cli-api)
-7. [Error Codes](#error-codes)
+1. [Data Formats](#data-formats)
+2. [Data Schemas](#data-schemas)
+3. [Validation API](#validation-api)
+4. [Scoring API](#scoring-api)
+5. [External APIs](#external-apis)
+6. [GitHub Actions API](#github-actions-api)
+7. [CLI API](#cli-api)
+8. [Error Codes](#error-codes)
+
+---
+
+## Data Formats
+
+The Fantasy Football League uses different file formats for different purposes:
+
+### JSON Format
+JSON is used for:
+- **Player databases** - Master player lists, prices, and statistics
+- **Team data** - Current squad, transfers, and history
+- **League standings** - Rankings and points
+- **Gameweek results** - Match data and calculated points
+- **Complex nested data structures** - Where relationships between data need to be preserved
+- **Machine-readable data** - Data primarily consumed by the application
+
+Example file paths:
+- `data/players/players.json`
+- `data/players/prices.json`
+- `teams/{username}/team.json`
+- `leagues/global/standings.json`
+
+### YAML Format
+YAML is used for:
+- **Configuration files** - Application and system settings
+- **Game rules** - Scoring systems and validation rules
+- **League settings** - Custom league configurations
+- **Application state** - Runtime configuration
+- **Human-editable data** - Settings that users or admins need to modify frequently
+
+Example file paths:
+- `data/rules/rules.yaml`
+- `data/rules/scoring.yaml`
+- `leagues/private/{league-name}/config.yaml`
+- `.github/workflows/*.yml` (GitHub Actions)
+
+### Format Guidelines
+- Use JSON when data integrity and parsing speed are priorities
+- Use YAML when human readability and editability are important
+- All JSON files must be valid and properly formatted
+- YAML files should include comments for configuration options
+- Consider file size: Large datasets should use JSON for efficiency
 
 ---
 

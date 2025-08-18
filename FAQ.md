@@ -17,7 +17,7 @@
 ## General Questions
 
 ### What is the Git-Based Fantasy Football League?
-It's the world's first Fantasy Football game played entirely through git version control and GitHub pull requests. Instead of using a traditional web interface, you manage your team by editing JSON files and submitting pull requests. All validation and scoring happens automatically through GitHub Actions.
+It's the world's first Fantasy Football game played entirely through git version control and GitHub pull requests. Instead of using a traditional web interface, you manage your team by editing YAML files and submitting pull requests. All validation and scoring happens automatically through GitHub Actions.
 
 ### Why use git for Fantasy Football?
 - **Educational**: Learn professional development workflows while having fun
@@ -382,7 +382,7 @@ npm run ffl:validate
 ## Advanced Questions
 
 ### Can I automate my team management?
-While you can script local operations, PRs must be manually created to ensure human participation. No bots allowed!
+TBC. We are investigating how we can allow bots and AI agents to participate, while being labelled as such
 
 ### How is data stored?
 All data is stored as JSON files in the git repository:
