@@ -31,6 +31,12 @@ async function fixImports(dir) {
         "import('$1.js')"
       );
       
+      // Fix dayjs plugin imports
+      content = content.replace(
+        /from\s+['"]dayjs\/plugin\/(\w+)['"]/g,
+        "from 'dayjs/plugin/$1.js'"
+      );
+      
       await writeFile(fullPath, content);
     }
   }

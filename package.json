@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "Git Fantasy League - Command Line Interface",
   "type": "module",
-  "main": "dist/index.js",
   "bin": {
     "gfl": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run fix-imports && npm run postbuild",
+    "fix-imports": "node scripts/fix-esm-imports.js",
+    "postbuild": "chmod +x dist/index.js",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "watch": "tsc -w",
     "lint": "eslint src/**/*.ts",
-    "test": "jest"
+    "test": "jest",
+    "prebuild": "rm -rf dist",
+    "link": "npm run build && npm link",
+    "unlink": "npm unlink -g gfl-cli"
   },
   "keywords": [
     "fantasy",
@@ -22,7 +26,7 @@
     "git",
     "devops"
   ],
-  "author": "",
+  "author": "Martin Palastanga <palastanga@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.6.0",
