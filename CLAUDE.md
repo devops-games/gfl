@@ -1,0 +1,1 @@
+- Use the latest stable javascript standard and best practices
