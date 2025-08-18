@@ -1,15 +1,17 @@
-# CLI Guide - Fantasy Football League
+# CLI Guide - Git Fantasy League (GFL)
 
-Complete documentation for the Fantasy Football League command-line interface (CLI).
+Complete documentation for the Git Fantasy League command-line interface (`gfl`).
 
 ## Table of Contents
 1. [Installation](#installation)
-2. [Quick Start](#quick-start)
-3. [Core Commands](#core-commands)
-4. [Advanced Commands](#advanced-commands)
-5. [Configuration](#configuration)
-6. [Examples](#examples)
-7. [Troubleshooting](#troubleshooting)
+2. [Usage Modes](#usage-modes)
+3. [Interactive Mode](#interactive-mode)
+4. [Command Mode](#command-mode)
+5. [Core Commands](#core-commands)
+6. [Advanced Commands](#advanced-commands)
+7. [Configuration](#configuration)
+8. [Examples](#examples)
+9. [Troubleshooting](#troubleshooting)
 
 ## Installation
 
@@ -25,508 +27,434 @@ npm --version
 git --version
 ```
 
-### Install the CLI
+### Install and Setup
 ```bash
-# Clone and install
+# Clone the repository
 git clone https://github.com/YOUR_USERNAME/fantasy-football-league.git
 cd fantasy-football-league
+
+# Install dependencies
 npm install
 
-# Make CLI globally available (optional)
+# Make the CLI globally available
 npm link
 
-# Now you can use 'ffl' from anywhere
-ffl status
+# Now you can use 'gfl' from anywhere!
+gfl --version
 ```
 
 ### First Run Setup
 ```bash
-# Initialize configuration
-npm run ffl:init
+# Initialize configuration interactively
+gfl init
 
-# This will:
-# - Create ~/.fflrc configuration file
-# - Set up your GitHub username
-# - Configure preferences
-# - Validate environment
+# Or specify configuration directly
+gfl init --github-user YOUR_USERNAME --team-name "Code Warriors FC"
 ```
 
-## Quick Start
+## Usage Modes
 
-### Essential Commands
+The `gfl` CLI can be used in two modes:
+
+### 1. Interactive Mode
+Launch an interactive session with visual menus and prompts:
 ```bash
-# Create your team (first time)
-npm run ffl:create-team
+# Start interactive mode
+gfl
 
-# Check your team status
-npm run ffl:status
+# Or explicitly
+gfl interactive
+```
 
-# Make transfers
-npm run ffl:transfer
+### 2. Command Mode
+Execute specific commands directly from the terminal:
+```bash
+# Direct command execution
+gfl status
+gfl transfer --out "Sterling" --in "Saka"
+gfl validate
+```
 
-# View next deadline
-npm run ffl:deadline
+## Interactive Mode
 
-# Validate team before submitting
-npm run ffl:validate
+### Starting Interactive Mode
+```bash
+$ gfl
+
+┌─────────────────────────────────────────┐
+│   Git Fantasy League - Interactive CLI  │
+│            Season 2024/25                │
+└─────────────────────────────────────────┘
+
+Welcome, @username!
+Team: Code Warriors FC
+Gameweek: 5
+
+What would you like to do?
+
+❯ 👀 View Team Status
+  🔄 Make Transfers
+  📊 Check League Standings
+  ⏰ View Deadlines
+  🎯 Set Captain
+  💎 Use Chip
+  ⚙️ Settings
+  ❌ Exit
+
+Use arrow keys to navigate, Enter to select
+```
+
+### Interactive Features
+
+#### Modern UI Elements
+- **Spinner animations** with `ora` for loading states
+- **Colored output** with `chalk` for better readability
+- **Interactive prompts** with `inquirer` for user input
+- **Tables** with `cli-table3` for structured data
+- **Progress bars** for long operations
+- **Emoji support** for visual feedback
+
+#### Interactive Team Creation
+```bash
+$ gfl create-team
+
+⚽ Git Fantasy League - Team Creation
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎮 Let's create your team!
+
+? Enter your team name: › Code Warriors FC
+? Select your team colours: › 
+  ❯ 🔴 Red & White
+    🔵 Blue & White
+    💛 Yellow & Black
+    💚 Green & White
+    ⚫ Black & Gold
+    🟣 Purple & Orange
+    (Custom colours...)
+
+Building squad...
+💰 Budget: £100.0m
+
+Selecting Goalkeepers (0/2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+? Search for goalkeeper: › Alis_
+
+↑/↓ Navigate • Enter Select • Tab Autocomplete
+
+  🥅 Alisson (LIV)
+     £5.5m • Form: 8.2 • Owned: 45.2%
+     
+❯ 🥅 Alisson Ramses (FUL)  
+     £4.0m • Form: 5.1 • Owned: 2.1%
+
+[Live budget tracking shown]
+💰 Spent: £5.5m / £100.0m
+📊 Squad: 1/15 players
+```
+
+#### Interactive Transfer Interface
+```bash
+$ gfl transfer
+
+🔄 Transfer Market - Gameweek 6
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your Squad (Tap player to transfer out)
+┌─────┬──────────────┬──────┬───────┬────────┬──────┐
+│     │ Player       │ Team │ Price │ Points │ News │
+├─────┼──────────────┼──────┼───────┼────────┼──────┤
+│ 🥅  │ Alisson      │ LIV  │ £5.5m │ 42     │ ✅   │
+│ 🥅  │ Ramsdale     │ ARS  │ £4.5m │ 38     │ ✅   │
+│ 🛡️  │ TAA          │ LIV  │ £7.0m │ 51     │ ✅   │
+│ 🛡️  │ Saliba       │ ARS  │ £5.0m │ 48     │ ✅   │
+│ ⚡  │ Sterling     │ CHE  │ £10.0m│ 28     │ 🤕   │
+└─────┴──────────────┴──────┴───────┴────────┴──────┘
+
+? Select action: › 
+  ❯ 🔄 Make Transfer
+    📈 View Player Stats
+    💹 Price Changes
+    🔮 Run Simulation
+    ✅ Confirm Transfers
+    ❌ Cancel
+
+Free Transfers: 2 | Extra: -4pts each
+```
+
+## Command Mode
+
+### Basic Syntax
+```bash
+gfl <command> [options] [arguments]
+```
+
+### Global Options
+```bash
+gfl --help              # Show help
+gfl --version          # Show version
+gfl --config <path>    # Use custom config file
+gfl --no-color        # Disable colored output
+gfl --quiet           # Minimal output
+gfl --verbose         # Detailed output
+gfl --json            # JSON output for scripting
 ```
 
 ## Core Commands
 
-### `ffl create-team`
-Create your initial fantasy football team.
+### `gfl status`
+View your team and league position.
 
-#### Usage
 ```bash
-npm run ffl:create-team [options]
+# Basic status
+gfl status
 
-# Options:
-#   -i, --interactive    Interactive mode (default)
-#   -f, --file <path>   Import team from JSON file
-#   -t, --template <n>  Use a template team
-#   -h, --help          Display help
+# Specific gameweek
+gfl status --gameweek 5
+
+# Detailed view with formations
+gfl status --detailed
+
+# JSON output for scripting
+gfl status --json
+
+# Compact view
+gfl status --compact
 ```
 
-#### Interactive Mode Flow
-1. **Welcome Screen**
-   - Display rules summary
-   - Show budget (£100m)
+### `gfl transfer`
+Make player transfers.
 
-2. **Team Name**
-   - 3-50 characters
-   - No profanity check
-
-3. **Player Selection**
-   - Position by position
-   - Search and filter options
-   - Real-time budget tracking
-   - Player statistics display
-
-4. **Formation Setup**
-   - Choose from valid formations
-   - Drag-and-drop interface (if supported)
-
-5. **Captain Selection**
-   - Select from starting XI
-   - Vice-captain backup
-
-6. **Review and Confirm**
-   - Complete team summary
-   - Validation check
-   - Save options
-
-#### Example
 ```bash
-$ npm run ffl:create-team
+# Interactive transfer mode
+gfl transfer
 
-⚽ Fantasy Football League - Team Creation
-════════════════════════════════════════════
-
-💰 Budget: £100.0m
-📋 Squad: 0/15 players
-
-? Enter your team name: Code Warriors FC
-? Select team colors: Red and White
-
-Selecting Goalkeepers (0/2)
-════════════════════════════════════════════
-Search: Ali█
-
-1. Alisson (LIV) - £5.5m - Form: 8.2
-2. Alireza Beiranvand (PER) - £4.0m - Form: 3.1
-
-? Select goalkeeper: 1
-✓ Added Alisson (£5.5m)
-💰 Remaining: £94.5m
-
-[Continue for all positions...]
-```
-
-### `ffl transfer`
-Make transfers for the upcoming gameweek.
-
-#### Usage
-```bash
-npm run ffl:transfer [options]
-
-# Options:
-#   -o, --out <player>    Player to transfer out
-#   -i, --in <player>     Player to transfer in
-#   -g, --gameweek <n>    Target gameweek (default: next)
-#   -p, --plan            Plan mode (no save)
-#   -c, --chip <type>     Use chip (wildcard/freehit)
-#   -h, --help            Display help
-```
-
-#### Interactive Transfer
-```bash
-$ npm run ffl:transfer
-
-Current Team - Gameweek 5
-════════════════════════════════════════════
-💰 Budget: £1.5m
-📊 Free Transfers: 2
-⚠️  Additional transfers: -4 points each
-
-Your Squad:
-┌─────┬──────────────┬──────┬───────┬────────┬──────┐
-│ Pos │ Player       │ Team │ Price │ Points │ News │
-├─────┼──────────────┼──────┼───────┼────────┼──────┤
-│ GK  │ Alisson      │ LIV  │ £5.5m │ 42     │ ✓    │
-│ GK  │ Ramsdale     │ ARS  │ £4.5m │ 38     │ ✓    │
-│ DEF │ TAA          │ LIV  │ £7.0m │ 51     │ ✓    │
-│ DEF │ Saliba       │ ARS  │ £5.0m │ 48     │ ✓    │
-│ MID │ Sterling     │ CHE  │ £10.0m│ 28     │ 🤕   │
-└─────┴──────────────┴──────┴───────┴────────┴──────┘
-
-? Select player to transfer out: Sterling (Injured)
-? Search for replacement: Saka
-
-Available Players:
-1. Saka (ARS) - £8.5m - Form: 9.1 - Next: FUL (H)
-2. Sakamoto (COV) - £5.0m - Form: 4.2 - Next: LEI (A)
-
-? Select player: 1
-
-Transfer Summary:
-OUT: Sterling (£10.0m) → IN: Saka (£8.5m)
-Profit: £1.5m
-New Budget: £3.0m
-Free Transfers Used: 1/2
-
-? Confirm transfer? Yes
-✓ Transfer complete!
-```
-
-#### Quick Transfer
-```bash
-# Direct transfer with names
-npm run ffl:transfer --out "Sterling" --in "Saka"
+# Direct transfer (non-interactive)
+gfl transfer --out "Sterling" --in "Saka"
 
 # Using player IDs
-npm run ffl:transfer --out player_123 --in player_456
+gfl transfer --out player_123 --in player_456
+
+# Plan mode (preview without saving)
+gfl transfer --plan
+
+# With wildcard chip
+gfl transfer --chip wildcard
+
+# Batch transfers from file
+gfl transfer --batch transfers.json
 ```
 
-### `ffl status`
-View your team status and league position.
+### `gfl create-team`
+Create your initial team.
 
-#### Usage
 ```bash
-npm run ffl:status [options]
+# Interactive team creation
+gfl create-team
 
-# Options:
-#   -g, --gameweek <n>    Specific gameweek (default: current)
-#   -l, --league <name>   Specific league (default: global)
-#   -d, --detailed        Show detailed statistics
-#   -h, --help            Display help
+# From template
+gfl create-team --template balanced
+
+# Import from JSON
+gfl create-team --import team.json
+
+# Quick random team (for testing)
+gfl create-team --random --budget 100
 ```
 
-#### Example Output
+### `gfl validate`
+Validate team against rules.
+
 ```bash
-$ npm run ffl:status
+# Basic validation
+gfl validate
 
-Team: Code Warriors FC
-════════════════════════════════════════════
-Owner: @username
-Created: August 1, 2024
-Team Value: £100.5m
-Bank: £0.5m
+# Auto-fix issues
+gfl validate --fix
 
-Gameweek 5 Performance
-════════════════════════════════════════════
-Points: 72 (↑ from 65)
-Captain: Haaland (C) - 14 pts (28 doubled)
-Chips Active: None
-Transfers Made: 1 (-0 pts)
+# Verbose output
+gfl validate --verbose
 
-League Positions
-════════════════════════════════════════════
-Overall: 125,432 / 8,234,521 (Top 2%)
-Gameweek: 89,234 / 8,234,521
-
-Mini-Leagues:
-1. DevOps Champions: 3rd / 20 (↑2)
-2. Work League: 1st / 15 (→)
-3. Friends League: 5th / 8 (↓1)
-
-Next Deadline
-════════════════════════════════════════════
-Gameweek 6: Friday, Sept 15, 7:00 PM
-Time Remaining: 2 days, 4 hours, 32 minutes
+# Check specific team file
+gfl validate --file teams/username/team.json
 ```
 
-### `ffl deadline`
-Show upcoming deadlines and fixture information.
+### `gfl deadline`
+Show deadlines and fixtures.
 
-#### Usage
 ```bash
-npm run ffl:deadline [options]
+# Next deadline
+gfl deadline
 
-# Options:
-#   -g, --gameweek <n>    Specific gameweek
-#   -a, --all             Show all future deadlines
-#   -f, --fixtures        Include fixtures
-#   -h, --help            Display help
-```
+# All future deadlines
+gfl deadline --all
 
-#### Example Output
-```bash
-$ npm run ffl:deadline --fixtures
+# With fixtures
+gfl deadline --fixtures
 
-Next Deadline - Gameweek 6
-════════════════════════════════════════════
-📅 Friday, September 15, 2024
-⏰ 7:00 PM BST (6:00 PM UTC)
-⏳ 2 days, 4 hours, 32 minutes remaining
-
-Fixtures:
-Fri 20:00  Luton vs Everton
-Sat 12:30  Fulham vs Manchester United
-Sat 15:00  Liverpool vs Wolves
-Sat 15:00  Tottenham vs Sheffield United
-Sat 17:30  Manchester City vs Arsenal
-Sun 14:00  Chelsea vs Bournemouth
-Sun 16:30  Newcastle vs Brentford
-
-Your Players' Fixtures:
-✓ Alisson: vs Wolves (H) - FDR: 2 🟢
-✓ TAA: vs Wolves (H) - FDR: 2 🟢
-⚠️ Saka: @ Man City (A) - FDR: 5 🔴
-```
-
-### `ffl validate`
-Validate your team against FPL rules.
-
-#### Usage
-```bash
-npm run ffl:validate [options]
-
-# Options:
-#   -f, --fix             Auto-fix issues where possible
-#   -v, --verbose         Detailed validation output
-#   -h, --help            Display help
-```
-
-#### Example Output
-```bash
-$ npm run ffl:validate
-
-Validating Team...
-════════════════════════════════════════════
-
-✓ Budget: £99.5m / £100m
-✓ Squad Size: 15 players
-✓ Positions: 2 GK, 5 DEF, 5 MID, 3 FWD
-✓ Team Limits: Max 3 per club
-✓ Formation: 4-4-2 (valid)
-✓ Captain: In starting XI
-✓ Vice-Captain: In starting XI
-✓ Unique Players: No duplicates
-
-Result: ✅ All validation checks passed!
-
-Warnings:
-⚠️ Player injured: Sterling (75% chance of playing)
-⚠️ Fixture congestion: 3 players have 2 matches in 5 days
+# Specific gameweek
+gfl deadline --gameweek 10
 ```
 
 ## Advanced Commands
 
-### `ffl captain`
-Set or change your captain and vice-captain.
+### `gfl captain`
+Manage captaincy.
 
 ```bash
-npm run ffl:captain [options]
+# Set captain interactively
+gfl captain
 
-# Options:
-#   -c, --captain <player>     Set captain
-#   -v, --vice <player>        Set vice-captain
-#   -s, --suggest              Get captain suggestions
-#   -p, --popular              Show popular captains
+# Direct set
+gfl captain --set "Haaland"
+
+# Set vice-captain
+gfl captain --vice "Salah"
+
+# Get AI suggestions
+gfl captain --suggest
+
+# Show popular captains
+gfl captain --popular
 ```
 
-#### Captain Suggestions
-```bash
-$ npm run ffl:captain --suggest
-
-Captain Suggestions - Gameweek 6
-════════════════════════════════════════════
-Based on: Form, Fixtures, Historical Performance
-
-1. Haaland (MCI) - Score: 9.5/10
-   vs NFO (H), Form: 10.2, Owned: 78%
-   
-2. Salah (LIV) - Score: 8.8/10
-   vs WOL (H), Form: 8.5, Owned: 45%
-   
-3. Saka (ARS) - Score: 7.2/10
-   @ MCI (A), Form: 9.1, Owned: 32%
-
-Popular Captains (Top 10k):
-1. Haaland - 62.3%
-2. Salah - 24.1%
-3. Palmer - 5.8%
-```
-
-### `ffl chip`
+### `gfl chip`
 Activate special chips.
 
 ```bash
-npm run ffl:chip <type> [options]
+# View available chips
+gfl chip
 
-# Types:
-#   wildcard      Unlimited transfers
-#   freehit       One-week unlimited
-#   triple        Triple captain points
-#   bench         All players score
-#   mystery       (Available January 2025)
+# Activate wildcard
+gfl chip activate wildcard
 
-# Options:
-#   -c, --check   Check chip availability
-#   -h, --help    Display help
+# Check chip status
+gfl chip status
+
+# Plan chip usage (preview)
+gfl chip plan triple-captain
 ```
 
-#### Example
+### `gfl simulate`
+Run simulations.
+
 ```bash
-$ npm run ffl:chip wildcard
+# Basic simulation
+gfl simulate
 
-Wildcard Activation - First Half Season
-════════════════════════════════════════════
-⚠️  This action cannot be undone!
+# With specific captain
+gfl simulate --captain "Haaland"
 
-Effects:
-✓ Unlimited transfers this gameweek
-✓ No point deductions
-✓ Saved transfers preserved
-✓ One use per half-season
+# Monte Carlo simulation (1000 runs)
+gfl simulate --monte-carlo
 
-? Activate Wildcard for Gameweek 6? Yes
+# Test formation change
+gfl simulate --formation "3-5-2"
 
-✓ Wildcard activated!
-You can now make unlimited transfers.
+# Include planned transfers
+gfl simulate --with-transfers
 ```
 
-### `ffl simulate`
-Simulate points for upcoming gameweek.
+### `gfl league`
+League management.
 
 ```bash
-npm run ffl:simulate [options]
+# View standings
+gfl league standings
 
-# Options:
-#   -c, --captain <player>   Set captain for simulation
-#   -f, --formation <type>   Test different formation
-#   -t, --transfers          Include planned transfers
-#   -m, --monte-carlo        Run probability simulation
+# Join a league
+gfl league join ABC123
+
+# Create private league
+gfl league create --name "DevOps Champions"
+
+# League info
+gfl league info --code ABC123
+
+# Compare with rival
+gfl league compare @rival_username
 ```
 
-#### Simulation Output
+### `gfl history`
+View historical data.
+
 ```bash
-$ npm run ffl:simulate --monte-carlo
+# Season summary
+gfl history season
 
-Gameweek 6 Simulation
-════════════════════════════════════════════
+# Specific gameweek
+gfl history gameweek 5
 
-Expected Points by Player:
-┌──────────────┬───────┬────────┬─────────┐
-│ Player       │ Fixture│ Expected│ Range   │
-├──────────────┼───────┼────────┼─────────┤
-│ Haaland (C)  │ NFO(H)│ 12.5   │ 4-20    │
-│ Salah        │ WOL(H)│ 8.2    │ 2-15    │
-│ TAA          │ WOL(H)│ 6.8    │ 2-12    │
-└──────────────┴───────┴────────┴─────────┘
+# Transfer history
+gfl history transfers
 
-Simulation Results (1000 runs):
-Expected Total: 67.3 points
-Best Case (95%): 89 points
-Worst Case (5%): 42 points
-Median: 66 points
+# Points progression graph
+gfl history graph
 
-Probability Distribution:
-90+ pts: ▓▓░░░░░░░░ 12%
-80-89:   ▓▓▓▓░░░░░░ 18%
-70-79:   ▓▓▓▓▓▓░░░░ 28%
-60-69:   ▓▓▓▓▓▓▓▓░░ 31%
-50-59:   ▓▓░░░░░░░░ 8%
-<50 pts: ▓░░░░░░░░░ 3%
+# Export to CSV
+gfl history export --format csv
 ```
 
-### `ffl league`
-Manage leagues and view standings.
+### `gfl sync`
+Synchronize with GitHub.
 
 ```bash
-npm run ffl:league <action> [options]
+# Pull latest changes
+gfl sync pull
 
-# Actions:
-#   create        Create a new league
-#   join          Join a league
-#   leave         Leave a league
-#   standings     View standings
-#   info          League information
-```
+# Push your changes
+gfl sync push
 
-#### Create League
-```bash
-$ npm run ffl:league create
+# Full sync (pull, merge, push)
+gfl sync
 
-Create Private League
-════════════════════════════════════════════
-
-? League name: DevOps Champions
-? League type: Classic
-? Maximum teams: 20
-? Starting gameweek: 1
-? Description: League for DevOps engineers
-
-League Created!
-════════════════════════════════════════════
-Name: DevOps Champions
-Code: ABC123
-Type: Classic
-Share: https://ffl.game/join/ABC123
-
-Next: Create PR to register league
-```
-
-### `ffl history`
-View historical performance.
-
-```bash
-npm run ffl:history [options]
-
-# Options:
-#   -g, --gameweek <n>    Specific gameweek
-#   -s, --season          Full season summary
-#   -c, --compare <user>  Compare with another manager
-#   -e, --export          Export to CSV
+# Create PR for changes
+gfl sync pr --title "GW6 Transfers"
 ```
 
 ## Configuration
 
 ### Configuration File
-Location: `~/.fflrc` or project `.fflrc`
+The CLI uses a hierarchical configuration system:
 
+1. **Global Config**: `~/.gflrc`
+2. **Project Config**: `./gflrc.json`
+3. **Environment Variables**: `GFL_*`
+4. **Command Line Options**: Highest priority
+
+#### Example Configuration
 ```json
 {
   "github": {
     "username": "YOUR_USERNAME",
-    "token": "ghp_..." // Optional, for API access
+    "token": "ghp_...",
+    "defaultBranch": "main"
   },
   "preferences": {
-    "colorScheme": "auto", // auto, light, dark
-    "notifications": true,
-    "autoValidate": true,
+    "interactive": true,
+    "colorOutput": true,
     "confirmTransfers": true,
+    "autoValidate": true,
     "timezone": "Europe/London"
   },
   "display": {
+    "theme": "dark",
     "compactMode": false,
-    "showPlayerPhotos": true,
-    "tableStyle": "rounded", // rounded, simple, ascii
+    "showEmojis": true,
+    "tableStyle": "rounded",
+    "dateFormat": "DD/MM/YYYY",
     "currency": "£"
+  },
+  "notifications": {
+    "deadlineReminder": true,
+    "priceChanges": true,
+    "injuryNews": true,
+    "slackWebhook": "https://hooks.slack.com/..."
   },
   "advanced": {
     "apiEndpoint": "https://fantasy.premierleague.com/api",
     "cacheTimeout": 300,
+    "maxRetries": 3,
     "debugMode": false
   }
 }
@@ -534,76 +462,138 @@ Location: `~/.fflrc` or project `.fflrc`
 
 ### Environment Variables
 ```bash
-# .env file
-FFL_GITHUB_USER=username
-FFL_GITHUB_TOKEN=ghp_...
-FFL_API_KEY=your_api_key
-FFL_DEBUG=false
-FFL_CACHE_DIR=~/.ffl/cache
+# Set environment variables
+export GFL_GITHUB_USER=username
+export GFL_GITHUB_TOKEN=ghp_...
+export GFL_INTERACTIVE=true
+export GFL_COLOR=true
+export GFL_DEBUG=false
+```
+
+### Setting Preferences
+```bash
+# Configure interactively
+gfl config
+
+# Set specific values
+gfl config set github.username "YOUR_USERNAME"
+gfl config set display.theme "dark"
+gfl config set preferences.interactive true
+
+# Get configuration value
+gfl config get github.username
+
+# Reset to defaults
+gfl config reset
 ```
 
 ## Examples
 
-### Complete Team Setup
+### Complete Setup Flow
 ```bash
-# 1. Fork and clone
-git clone https://github.com/YOU/fantasy-football-league.git
-cd fantasy-football-league
+# 1. Install and link
+npm install && npm link
 
-# 2. Install
-npm install
+# 2. Initialize configuration
+gfl init
 
-# 3. Create team
-npm run ffl:create-team
+# 3. Create your team interactively
+gfl
 
-# 4. Validate
-npm run ffl:validate
+# 4. Validate before submission
+gfl validate
 
-# 5. Commit
-git add teams/YOUR_USERNAME/
-git commit -m "feat: Create initial team"
-git push origin main
-
-# 6. Create PR on GitHub
+# 5. Create PR with changes
+gfl sync pr --title "Initial team creation"
 ```
 
-### Weekly Routine
+### Weekly Management Routine
 ```bash
-# Monday - Review gameweek
-npm run ffl:history --gameweek last
-npm run ffl:status
+# Monday - Review last gameweek
+gfl history gameweek --last
+gfl league standings
 
-# Tuesday - Plan transfers
-npm run ffl:simulate
-npm run ffl:transfer --plan
+# Wednesday - Plan transfers
+gfl transfer --plan
+gfl simulate --with-transfers
 
-# Thursday - Make transfers
-npm run ffl:transfer
-npm run ffl:captain --suggest
+# Friday - Execute transfers
+gfl transfer
+gfl captain --suggest
+gfl validate
 
-# Friday - Final checks
-npm run ffl:validate
-npm run ffl:deadline
-
-# Saturday - Watch matches
-npm run ffl:status --live  # If implemented
+# Friday evening - Final check
+gfl deadline
+gfl sync push
 ```
 
-### Using Chips Strategically
+### Advanced Scripting
 ```bash
-# Check chip availability
-npm run ffl:chip --check
+#!/bin/bash
+# Auto-transfer script
 
-# Plan wildcard (see changes without saving)
-npm run ffl:chip wildcard --plan
-npm run ffl:transfer --chip wildcard --plan
+# Get current team value in JSON
+TEAM_VALUE=$(gfl status --json | jq '.team.value')
 
-# Activate and use
-npm run ffl:chip wildcard
-npm run ffl:transfer  # Make unlimited transfers
+# Check if we should wildcard
+if [ "$TEAM_VALUE" -lt "98.0" ]; then
+  gfl chip activate wildcard
+fi
 
-# Commit with chip label
-git commit -m "chip: Activate wildcard for GW10"
+# Get transfer suggestions
+TRANSFERS=$(gfl suggest transfers --json)
+
+# Execute transfers
+echo "$TRANSFERS" | gfl transfer --batch -
+
+# Validate and push
+gfl validate --fix && gfl sync push
+```
+
+### CI/CD Integration
+```yaml
+# .github/workflows/validate.yml
+name: Validate Team
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install
+      - run: npm link
+      - run: gfl validate --verbose
+      - run: gfl simulate --json > simulation.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: simulation-results
+          path: simulation.json
+```
+
+## Package Dependencies
+
+The CLI uses modern npm packages for the best experience:
+
+```json
+{
+  "dependencies": {
+    "commander": "^11.0.0",      // Command parsing
+    "inquirer": "^9.0.0",        // Interactive prompts
+    "ora": "^7.0.0",             // Spinner animations
+    "chalk": "^5.0.0",           // Colored output
+    "cli-table3": "^0.6.0",      // Beautiful tables
+    "figlet": "^1.6.0",          // ASCII art titles
+    "boxen": "^7.0.0",           // Boxes around content
+    "conf": "^11.0.0",           // Configuration management
+    "update-notifier": "^6.0.0", // Update notifications
+    "axios": "^1.5.0",           // HTTP requests
+    "dayjs": "^1.11.0",          // Date handling
+    "lodash": "^4.17.0",         // Utility functions
+    "validator": "^13.0.0"       // Input validation
+  }
+}
 ```
 
 ## Troubleshooting
@@ -612,157 +602,65 @@ git commit -m "chip: Activate wildcard for GW10"
 
 #### Command not found
 ```bash
-# Ensure you're in the project directory
-cd fantasy-football-league
+# Ensure npm link was run
+npm link
 
-# Or install globally
+# Or use npx
+npx gfl status
+
+# Or add to PATH
+export PATH=$PATH:$(npm bin -g)
+```
+
+#### Permission errors
+```bash
+# Fix npm permissions
+npm config set prefix ~/.npm-global
+export PATH=~/.npm-global/bin:$PATH
+
+# Reinstall
 npm install -g .
 ```
 
-#### Validation errors
+#### SSL/TLS errors
 ```bash
-# Run detailed validation
-npm run ffl:validate --verbose
-
-# Auto-fix where possible
-npm run ffl:validate --fix
-```
-
-#### API rate limits
-```bash
-# Clear cache
-rm -rf ~/.ffl/cache
-
-# Use offline mode
-npm run ffl:status --offline
-```
-
-#### Permission denied
-```bash
-# Check file permissions
-ls -la teams/YOUR_USERNAME/
-
-# Fix permissions
-chmod 644 teams/YOUR_USERNAME/team.json
+# For corporate proxies
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+gfl config set advanced.strictSSL false
 ```
 
 ### Debug Mode
 ```bash
 # Enable debug output
-export FFL_DEBUG=true
-npm run ffl:status
+gfl --debug status
 
-# Or inline
-FFL_DEBUG=true npm run ffl:transfer
+# Or set environment variable
+export GFL_DEBUG=true
+gfl status
+
+# Verbose logging
+gfl --verbose transfer
 ```
 
 ### Getting Help
 ```bash
-# Built-in help
-npm run ffl:help
-npm run ffl:create-team --help
+# General help
+gfl help
 
-# Version information
-npm run ffl:version
+# Command-specific help
+gfl help transfer
+gfl transfer --help
+
+# Interactive help
+gfl ? # Shows contextual help
+
+# Version info
+gfl --version
 
 # Check for updates
-npm run ffl:update
-```
-
-## CLI Development
-
-### Adding Custom Commands
-```javascript
-// cli/commands/custom.js
-module.exports = async function(options) {
-  console.log('Custom command', options);
-  // Your logic here
-};
-
-// Register in cli/index.js
-program
-  .command('custom')
-  .description('My custom command')
-  .action(require('./commands/custom'));
-```
-
-### Testing Commands
-```bash
-# Run tests
-npm test
-
-# Test specific command
-npm test -- create-team
-
-# Coverage report
-npm run test:coverage
-```
-
-## Shortcuts and Aliases
-
-### Bash Aliases
-Add to `~/.bashrc` or `~/.zshrc`:
-```bash
-alias ffl='npm run ffl'
-alias fflt='npm run ffl:transfer'
-alias ffls='npm run ffl:status'
-alias fflv='npm run ffl:validate'
-alias ffld='npm run ffl:deadline'
-```
-
-### NPM Scripts
-Additional scripts in `package.json`:
-```json
-{
-  "scripts": {
-    "ffl": "node cli/index.js",
-    "ffl:quick-transfer": "node cli/index.js transfer --quick",
-    "ffl:captain-stats": "node cli/index.js captain --stats",
-    "ffl:week-review": "node cli/index.js history --week"
-  }
-}
-```
-
-## Advanced Features
-
-### Batch Operations
-```bash
-# Multiple transfers in one command
-npm run ffl:transfer --batch transfers.json
-
-# Batch file format:
-{
-  "transfers": [
-    {"out": "Sterling", "in": "Saka"},
-    {"out": "Martinez", "in": "Ramsdale"}
-  ]
-}
-```
-
-### Export/Import
-```bash
-# Export team
-npm run ffl:export --format json > my-team.json
-
-# Import team
-npm run ffl:import --file my-team.json
-
-# Export history
-npm run ffl:history --export --format csv > history.csv
-```
-
-### Integration with External Tools
-```bash
-# Pipe to jq for JSON processing
-npm run ffl:status --json | jq '.points'
-
-# Use with watch for live updates
-watch -n 60 'npm run ffl:status --compact'
-
-# Script automation
-./scripts/auto-transfer.sh
+gfl update
 ```
 
 ---
 
-For more information, see the [main documentation](./README.md) or run `npm run ffl:help`.
+For more information, see the [main documentation](./README.md) or visit the [project repository](https://github.com/devops-games/fantasy-football).
