@@ -1,0 +1,223 @@
+{
+  "season": "2024/25",
+  "gameweeks": [
+    {
+      "id": 1,
+      "name": "Gameweek 1",
+      "deadline": "2024-08-16T18:30:00Z",
+      "finished": false,
+      "fixtures": [
+        {
+          "id": 1,
+          "kickoff": "2024-08-16T20:00:00Z",
+          "homeTeam": "MUN",
+          "awayTeam": "FUL",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 2,
+          "kickoff": "2024-08-17T12:30:00Z",
+          "homeTeam": "IPS",
+          "awayTeam": "LIV",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 3,
+          "kickoff": "2024-08-17T15:00:00Z",
+          "homeTeam": "ARS",
+          "awayTeam": "WOL",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 4,
+          "kickoff": "2024-08-17T15:00:00Z",
+          "homeTeam": "EVE",
+          "awayTeam": "BHA",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 5,
+          "kickoff": "2024-08-17T15:00:00Z",
+          "homeTeam": "NEW",
+          "awayTeam": "SOU",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 6,
+          "kickoff": "2024-08-17T15:00:00Z",
+          "homeTeam": "NFO",
+          "awayTeam": "BOU",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 7,
+          "kickoff": "2024-08-17T17:30:00Z",
+          "homeTeam": "WHU",
+          "awayTeam": "AVL",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 8,
+          "kickoff": "2024-08-18T14:00:00Z",
+          "homeTeam": "BRE",
+          "awayTeam": "CRY",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 9,
+          "kickoff": "2024-08-18T16:30:00Z",
+          "homeTeam": "CHE",
+          "awayTeam": "MCI",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 10,
+          "kickoff": "2024-08-19T20:00:00Z",
+          "homeTeam": "LEI",
+          "awayTeam": "TOT",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Gameweek 2",
+      "deadline": "2024-08-24T11:00:00Z",
+      "finished": false,
+      "fixtures": [
+        {
+          "id": 11,
+          "kickoff": "2024-08-24T12:30:00Z",
+          "homeTeam": "BHA",
+          "awayTeam": "MUN",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 12,
+          "kickoff": "2024-08-24T15:00:00Z",
+          "homeTeam": "CRY",
+          "awayTeam": "WHU",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 13,
+          "kickoff": "2024-08-24T15:00:00Z",
+          "homeTeam": "FUL",
+          "awayTeam": "LEI",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 14,
+          "kickoff": "2024-08-24T15:00:00Z",
+          "homeTeam": "MCI",
+          "awayTeam": "IPS",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 15,
+          "kickoff": "2024-08-24T15:00:00Z",
+          "homeTeam": "SOU",
+          "awayTeam": "NFO",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 16,
+          "kickoff": "2024-08-24T15:00:00Z",
+          "homeTeam": "TOT",
+          "awayTeam": "EVE",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 17,
+          "kickoff": "2024-08-24T17:30:00Z",
+          "homeTeam": "AVL",
+          "awayTeam": "ARS",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 18,
+          "kickoff": "2024-08-25T14:00:00Z",
+          "homeTeam": "BOU",
+          "awayTeam": "NEW",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 19,
+          "kickoff": "2024-08-25T14:00:00Z",
+          "homeTeam": "WOL",
+          "awayTeam": "CHE",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        },
+        {
+          "id": 20,
+          "kickoff": "2024-08-25T16:30:00Z",
+          "homeTeam": "LIV",
+          "awayTeam": "BRE",
+          "homeScore": null,
+          "awayScore": null,
+          "finished": false
+        }
+      ]
+    }
+  ],
+  "teams": {
+    "ARS": { "name": "Arsenal", "shortName": "Arsenal", "code": "ARS" },
+    "AVL": { "name": "Aston Villa", "shortName": "Aston Villa", "code": "AVL" },
+    "BOU": { "name": "Bournemouth", "shortName": "Bournemouth", "code": "BOU" },
+    "BRE": { "name": "Brentford", "shortName": "Brentford", "code": "BRE" },
+    "BHA": { "name": "Brighton", "shortName": "Brighton", "code": "BHA" },
+    "CHE": { "name": "Chelsea", "shortName": "Chelsea", "code": "CHE" },
+    "CRY": { "name": "Crystal Palace", "shortName": "Crystal Palace", "code": "CRY" },
+    "EVE": { "name": "Everton", "shortName": "Everton", "code": "EVE" },
+    "FUL": { "name": "Fulham", "shortName": "Fulham", "code": "FUL" },
+    "IPS": { "name": "Ipswich Town", "shortName": "Ipswich", "code": "IPS" },
+    "LEI": { "name": "Leicester City", "shortName": "Leicester", "code": "LEI" },
+    "LIV": { "name": "Liverpool", "shortName": "Liverpool", "code": "LIV" },
+    "MCI": { "name": "Manchester City", "shortName": "Man City", "code": "MCI" },
+    "MUN": { "name": "Manchester United", "shortName": "Man Utd", "code": "MUN" },
+    "NEW": { "name": "Newcastle United", "shortName": "Newcastle", "code": "NEW" },
+    "NFO": { "name": "Nottingham Forest", "shortName": "Nott'm Forest", "code": "NFO" },
+    "SOU": { "name": "Southampton", "shortName": "Southampton", "code": "SOU" },
+    "TOT": { "name": "Tottenham Hotspur", "shortName": "Spurs", "code": "TOT" },
+    "WHU": { "name": "West Ham United", "shortName": "West Ham", "code": "WHU" },
+    "WOL": { "name": "Wolverhampton", "shortName": "Wolves", "code": "WOL" }
+  }
+}

@@ -3,6 +3,7 @@ import inquirer from 'inquirer';
 import { createSpinner, displayValidationResults, createTeamTable, formatCurrency } from '../utils/display';
 import { TeamService, Team } from '../services/team-service';
 import { ConfigManager } from '../utils/config-manager';
+import { RulesService } from '../services/rules-service';
 import { ValidationResult } from '../types';
 
 export async function validateCommand(options: any): Promise<void> {
@@ -30,20 +31,25 @@ export async function validateCommand(options: any): Promise<void> {
     
     spinner.text = 'Running validation checks...';
     
+    // Initialize rules service
+    const rulesService = new RulesService();
+    
     // Run all validation checks
     const checks = [
-      { name: 'Budget', fn: () => validateBudget(team!) },
-      { name: 'Squad composition', fn: () => validateSquadComposition(team!) },
-      { name: 'Team limits', fn: () => validateTeamLimits(team!) },
-      { name: 'Formation', fn: () => validateFormation(team!) },
-      { name: 'Captain selection', fn: () => validateCaptains(team!) },
-      { name: 'Starting XI', fn: () => validateStartingXI(team!) }
+      { name: 'Budget', fn: async () => await validateBudgetWithRules(team!, rulesService) },
+      { name: 'Squad composition', fn: async () => await validateSquadCompositionWithRules(team!, rulesService) },
+      { name: 'Team limits', fn: async () => await validateTeamLimitsWithRules(team!, rulesService) },
+      { name: 'Formation', fn: async () => await validateFormationWithRules(team!, rulesService) },
+      { name: 'Captain selection', fn: async () => await validateCaptainsWithRules(team!, rulesService) },
+      { name: 'Starting XI', fn: async () => await validateStartingXIWithRules(team!, rulesService) },
+      { name: 'Chip usage', fn: async () => await validateChipUsage(team!, rulesService) },
+      { name: 'Transfer limits', fn: async () => await validateTransferLimits(team!, rulesService) }
     ];
     
     const checkResults: any[] = [];
     for (const check of checks) {
       spinner.text = `Checking ${check.name}...`;
-      const result = check.fn();
+      const result = await check.fn();
       checkResults.push({ name: check.name, ...result });
     }
     
@@ -117,59 +123,44 @@ export async function validateCommand(options: any): Promise<void> {
   }
 }
 
-// Validation helper functions
-function validateBudget(team: Team): { valid: boolean; details: string } {
-  const valid = team.budget.spent <= 100.0;
+// Enhanced validation helper functions using rules service
+async function validateBudgetWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const result = await rulesService.validateBudget(team);
   const details = `${formatCurrency(team.budget.spent)} / ${formatCurrency(100.0)}`;
-  return { valid, details };
+  return { valid: result.valid, details: result.errors.length > 0 ? result.errors[0] : details };
 }
 
-function validateSquadComposition(team: Team): { valid: boolean; details: string } {
+async function validateSquadCompositionWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const result = await rulesService.validateSquadComposition(team);
   const counts = {
     GK: team.squad.goalkeepers.length,
     DEF: team.squad.defenders.length,
     MID: team.squad.midfielders.length,
     FWD: team.squad.forwards.length
   };
-  
-  const required = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
-  const valid = Object.entries(required).every(([pos, count]) => counts[pos as keyof typeof counts] === count);
   const details = `${counts.GK}-${counts.DEF}-${counts.MID}-${counts.FWD} (required: 2-5-5-3)`;
-  
-  return { valid, details };
+  return { valid: result.valid, details: result.errors.length > 0 ? result.errors.join(', ') : details };
 }
 
-function validateTeamLimits(team: Team): { valid: boolean; details: string } {
-  const teamCounts: Record<string, number> = {};
+async function validateTeamLimitsWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
   const allPlayers = [
     ...team.squad.goalkeepers,
     ...team.squad.defenders,
     ...team.squad.midfielders,
     ...team.squad.forwards
   ];
-  
-  allPlayers.forEach(player => {
-    teamCounts[player.team] = (teamCounts[player.team] || 0) + 1;
-  });
-  
-  const violations = Object.entries(teamCounts).filter(([_, count]) => count > 3);
-  const valid = violations.length === 0;
-  const details = valid ? 'Max 3 per club ✓' : violations.map(([club, count]) => `${club}: ${count}`).join(', ');
-  
-  return { valid, details };
+  const result = await rulesService.validateTeamLimits(allPlayers);
+  const details = result.valid ? 'Max 3 per club ✓' : result.errors.join(', ');
+  return { valid: result.valid, details };
 }
 
-function validateFormation(team: Team): { valid: boolean; details: string } {
-  const validFormations = ['4-4-2', '4-3-3', '3-5-2', '3-4-3', '5-4-1', '5-3-2'];
-  const valid = validFormations.includes(team.formation);
-  const details = team.formation;
-  return { valid, details };
+async function validateFormationWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const result = await rulesService.validateFormation(team.formation);
+  return { valid: result.valid, details: result.errors.length > 0 ? result.errors[0] : team.formation };
 }
 
-function validateCaptains(team: Team): { valid: boolean; details: string } {
-  const captainInXI = team.startingXI.includes(team.captain);
-  const viceCaptainInXI = team.startingXI.includes(team.viceCaptain);
-  const valid = captainInXI && viceCaptainInXI;
+async function validateCaptainsWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const result = await rulesService.validateCaptains(team.captain, team.viceCaptain, team.startingXI);
   
   const allPlayers = [
     ...team.squad.goalkeepers,
@@ -181,14 +172,41 @@ function validateCaptains(team: Team): { valid: boolean; details: string } {
   const captain = allPlayers.find(p => p.id === team.captain);
   const viceCaptain = allPlayers.find(p => p.id === team.viceCaptain);
   
-  const details = `C: ${captain?.name || 'None'}, VC: ${viceCaptain?.name || 'None'}`;
-  return { valid, details };
+  const details = result.valid 
+    ? `C: ${captain?.name || 'None'}, VC: ${viceCaptain?.name || 'None'}` 
+    : result.errors.join(', ');
+  return { valid: result.valid, details };
 }
 
-function validateStartingXI(team: Team): { valid: boolean; details: string } {
-  const valid = team.startingXI.length === 11 && team.bench.length === 4;
-  const details = `${team.startingXI.length} starting, ${team.bench.length} bench`;
-  return { valid, details };
+async function validateStartingXIWithRules(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const allPlayers = [
+    ...team.squad.goalkeepers,
+    ...team.squad.defenders,
+    ...team.squad.midfielders,
+    ...team.squad.forwards
+  ];
+  
+  const result = await rulesService.validateStartingXI(team.formation, team.startingXI, allPlayers);
+  const details = result.valid 
+    ? `${team.startingXI.length} starting, ${team.bench.length} bench` 
+    : result.errors.join(', ');
+  return { valid: result.valid, details };
+}
+
+// New validation functions
+async function validateChipUsage(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const availableChips = await rulesService.getAvailableChips(team);
+  const details = availableChips.length > 0 
+    ? `Available: ${availableChips.join(', ')}` 
+    : 'All chips used';
+  return { valid: true, details };
+}
+
+async function validateTransferLimits(team: Team, rulesService: RulesService): Promise<{ valid: boolean; details: string }> {
+  const transfers = team.transfers || { free: 1, made: 0, cost: 0 };
+  const result = await rulesService.validateTransfers(transfers.made, transfers.free);
+  const details = `${transfers.free} free, ${transfers.made} made (cost: ${result.cost} pts)`;
+  return { valid: result.valid, details };
 }
 
 // Auto-fix functionality

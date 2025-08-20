@@ -82,6 +82,44 @@ export interface InitCommandOptions extends BaseCommandOptions {
 }
 
 // Data structure types
+// Team structure
+export interface Team {
+  manager: {
+    github: string;
+    teamName: string;
+    email?: string;
+    joined: string;
+  };
+  squad: {
+    goalkeepers: Player[];
+    defenders: Player[];
+    midfielders: Player[];
+    forwards: Player[];
+  };
+  formation: string;
+  startingXI: string[];
+  bench: string[];
+  captain: string;
+  viceCaptain: string;
+  budget: {
+    total: number;
+    spent: number;
+    remaining: number;
+  };
+  transfers?: {
+    free: number;
+    made: number;
+    cost: number;
+  };
+  chips?: Record<string, boolean>;
+  metadata: {
+    created: string;
+    lastModified: string;
+    gameweekLocked?: number | null;
+    version: string;
+  };
+}
+
 export interface Player {
   id: string;
   name: string;

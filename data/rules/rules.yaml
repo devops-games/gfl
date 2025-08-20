@@ -1,0 +1,132 @@
+# Fantasy Football League Rules Configuration
+# Based on official FPL rules with git-specific adaptations
+
+budget:
+  initial: 100.0
+  max: 100.0
+
+squad:
+  size: 15
+  composition:
+    GK: 2
+    DEF: 5
+    MID: 5
+    FWD: 3
+  teamLimit: 3  # Maximum players from same club
+
+transfers:
+  freePerWeek: 1
+  maxAccumulated: 5  # NEW for 2024/25 season
+  costPerExtra: 4    # Points deduction
+  maxPerGameweek: 20
+
+formations:
+  - "4-4-2"
+  - "4-3-3"
+  - "3-5-2"
+  - "3-4-3"
+  - "5-4-1"
+  - "5-3-2"
+  - "4-5-1"
+
+scoring:
+  goals:
+    GK: 10  # NEW: Increased for goalkeepers
+    DEF: 6
+    MID: 5
+    FWD: 4
+  assists: 3
+  cleanSheets:
+    GK: 4
+    DEF: 4
+    MID: 1
+    FWD: 0
+  penalties:
+    yellowCard: -1
+    redCard: -3
+    ownGoal: -2
+    penaltyMiss: -2
+    goalsConceded: -1  # Per 2 goals for GK/DEF
+  bonus:
+    first: 3
+    second: 2
+    third: 1
+  goalkeeping:
+    penaltySave: 5
+    savesPer3: 1
+  appearance:
+    full: 2     # 60+ minutes
+    partial: 1  # <60 minutes
+  defensive:  # NEW for 2025/26
+    defenders:
+      actions: 2
+      threshold: 10  # CBIT actions
+    others:
+      actions: 2
+      threshold: 12  # CBIT + recoveries
+
+chips:
+  wildcard:
+    available: 2
+    firstHalfDeadline: 19  # Gameweek 19
+    effect: "Unlimited free transfers for one gameweek"
+  freeHit:
+    available: 1
+    effect: "Unlimited transfers for one gameweek, team reverts after"
+  tripleCaptain:
+    available: 1
+    effect: "Captain scores triple points"
+  benchBoost:
+    available: 1
+    effect: "All 15 players score points"
+  mystery:
+    available: 1
+    revealDate: "2025-01-01"
+    effect: "To be revealed"
+
+deadlines:
+  transferWindowCloseMinutes: 90  # Before first match
+  autoSubstitutionAfter: "all_matches_complete"
+
+prices:
+  min: 4.0
+  max: 15.0
+  maxChangePerWeek: 0.3
+  sellProfitPercentage: 0.5  # 50% of profit when selling
+
+leagues:
+  maxPrivateLeagues: 20
+  maxTeamsPerLeague: 20
+  cupQualificationWeek: 16
+  types:
+    - classic      # Total points
+    - headToHead   # Weekly matchups
+
+season:
+  startDate: "2024-08-16"
+  endDate: "2025-05-25"
+  totalGameweeks: 38
+  currentGameweek: 1
+  
+specialGameweeks:
+  blanks: [18, 33]      # No fixtures for some teams
+  doubles: [19, 37]     # Two fixtures for some teams
+  unlimitedTransfers: [1, 2, 3]  # Settling period
+
+gitSpecific:
+  prLabels:
+    transfer: "transfer"
+    wildcard: "chip:wildcard"
+    freeHit: "chip:free-hit"
+    tripleCaptain: "chip:triple-captain"
+    benchBoost: "chip:bench-boost"
+    mystery: "chip:mystery"
+  validation:
+    requireHumanInitiated: true
+    blockAutomatedAccounts: true
+    enforceUsernameMatch: true
+  fileFormats:
+    team: "json"
+    transfers: "json"
+    history: "json"
+    league: "yaml"
