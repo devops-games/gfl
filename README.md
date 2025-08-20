@@ -1,4 +1,4 @@
-# Git-Based Fantasy Football League
+# Git Football League
 
 A revolutionary approach to Fantasy Football where software engineers use git workflows, pull requests, and CI/CD pipelines to manage their teams. This is the world's first "Infrastructure as Game" implementation.
 
