@@ -187,11 +187,18 @@ The CLI has been completely rebuilt using Ink (React for CLIs):
 
 ## 📝 License
 
-MIT License - See [LICENSE](./LICENSE) for details
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+The MIT License is a permissive license that allows you to:
+- Use the code commercially
+- Modify and distribute the code
+- Use the code privately
+- Sublicense the code
 
 ## 🙏 Acknowledgments
 
 - Friday brown bag for inspiring this idea
+- The open source community for continuous inspiration
 
 ---
 
