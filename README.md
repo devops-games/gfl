@@ -4,6 +4,21 @@
 
 A revolutionary approach to Fantasy Football using git workflows, pull requests, to manage teams and CI/CD pipelines to enforce the rules.
 
+## 📖 How Does It Work?
+
+Unlike traditional fantasy football platforms, GFL uses git as the game engine:
+
+1. **Fork the League Repository** → Your fork becomes your team's home
+2. **Create Your Team** → Use the CLI to select 15 players within £100m budget
+3. **Submit a Pull Request** → Your team joins the league when PR is merged
+4. **Make Weekly Transfers** → Edit your team JSON, create PR before deadline
+5. **GitHub Actions Validate** → Automated checks ensure all rules are followed
+6. **PR Gets Merged** → Your changes are accepted for the gameweek
+7. **Points Calculated Automatically** → GitHub Actions process match results
+8. **League Table Updates** → Rankings stored in git, visible to all
+
+Every action creates a permanent record in git history. No black box algorithms, no hidden data - just transparent, auditable gameplay through version control.
+
 ## 🎮 What Makes This Unique?
 
 This isn't just another fantasy football app. It's a game played entirely through git:
