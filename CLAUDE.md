@@ -262,3 +262,4 @@ npm run validate   # Validate team data
 ```
 
 Remember: This is a game that teaches professional development workflows whilst being genuinely fun to play. Maintain that balance in all development decisions.
+- Refer to the @docs/GAME_RULES.md to understand functionality, rules and constraints when creating and updating features. Consider the entire workflow, and how a user will use the system. Be aware that there are potentially multiple happy paths.
