@@ -21,7 +21,8 @@
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
     "allowImportingTsExtensions": false,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test-data"],

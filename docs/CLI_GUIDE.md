@@ -56,8 +56,8 @@ gfl init --github-user YOUR_USERNAME --team-name "Code Warriors FC"
 
 The `gfl` CLI can be used in two modes:
 
-### 1. Interactive Mode
-Launch an interactive session with visual menus and prompts:
+### 1. Interactive Mode (Powered by Ink)
+Launch an interactive session with React-based UI components:
 ```bash
 # Start interactive mode
 gfl
@@ -65,6 +65,12 @@ gfl
 # Or explicitly
 gfl interactive
 ```
+
+The CLI now uses **Ink** - a React framework for building command-line interfaces, providing:
+- Real-time UI updates without screen flicker
+- Smooth animations and transitions
+- React component architecture
+- Responsive keyboard navigation
 
 ### 2. Command Mode
 Execute specific commands directly from the terminal:
@@ -106,13 +112,17 @@ Use arrow keys to navigate, Enter to select
 
 ### Interactive Features
 
-#### Modern UI Elements
-- **Spinner animations** with `ora` for loading states
-- **Colored output** with `chalk` for better readability
-- **Interactive prompts** with `inquirer` for user input
-- **Tables** with `cli-table3` for structured data
-- **Progress bars** for long operations
-- **Emoji support** for visual feedback
+#### Modern UI Elements (Now with Ink React Components)
+- **React-based UI** with `ink` for dynamic interfaces
+- **Component architecture** for reusable UI elements
+- **Real-time updates** without screen clearing
+- **Smooth animations** with `ink-spinner` for loading states
+- **Gradient text** with `ink-gradient` for visual appeal
+- **Text input components** with `ink-text-input` for user input
+- **Select menus** with `ink-select-input` for navigation
+- **Box layouts** with `ink-box` for structured layouts
+- **Big text banners** with `ink-big-text` for titles
+- **Links** with `ink-link` for clickable elements
 
 #### Interactive Team Creation
 ```bash
@@ -579,19 +589,25 @@ The CLI uses modern npm packages for the best experience:
 ```json
 {
   "dependencies": {
-    "commander": "^11.0.0",      // Command parsing
-    "inquirer": "^9.0.0",        // Interactive prompts
-    "ora": "^7.0.0",             // Spinner animations
-    "chalk": "^5.0.0",           // Colored output
-    "cli-table3": "^0.6.0",      // Beautiful tables
-    "figlet": "^1.6.0",          // ASCII art titles
-    "boxen": "^7.0.0",           // Boxes around content
-    "conf": "^11.0.0",           // Configuration management
-    "update-notifier": "^6.0.0", // Update notifications
-    "axios": "^1.5.0",           // HTTP requests
-    "dayjs": "^1.11.0",          // Date handling
-    "lodash": "^4.17.0",         // Utility functions
-    "validator": "^13.0.0"       // Input validation
+    "commander": "^11.0.0",         // Command parsing
+    "ink": "^6.0.0",               // React for CLIs
+    "react": "^19.0.0",            // React framework
+    "ink-spinner": "^5.0.0",       // Loading spinners
+    "ink-text-input": "^6.0.0",    // Text input fields
+    "ink-select-input": "^6.0.0",  // Selection menus
+    "ink-gradient": "^3.0.0",      // Gradient text
+    "ink-big-text": "^2.0.0",      // Large ASCII text
+    "ink-box": "^1.0.0",           // Box components
+    "ink-link": "^4.0.0",          // Clickable links
+    "chalk": "^5.0.0",             // Colored output
+    "cli-table3": "^0.6.0",        // Beautiful tables
+    "figlet": "^1.6.0",            // ASCII art titles
+    "conf": "^11.0.0",             // Configuration management
+    "update-notifier": "^6.0.0",   // Update notifications
+    "axios": "^1.5.0",             // HTTP requests
+    "dayjs": "^1.11.0",            // Date handling
+    "lodash": "^4.17.0",           // Utility functions
+    "validator": "^13.0.0"         // Input validation
   }
 }
 ```

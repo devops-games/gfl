@@ -28,15 +28,19 @@ git remote add upstream https://github.com/devops-games/fantasy-football.git
 # 4. Install dependencies
 npm install
 
-# 5. Link the cli
+# 5. Install the CLI globally
 npm link
 
-# 6. Commit and push
+# 6. Initialize and create your team (now with Ink-powered UI!)
+gfl init
+gfl create-team
+
+# 7. Commit and push
 git add teams/{your-github-username}/
 git commit -m "feat: Register team for {your-username}"
 git push origin main
 
-# 7. Create a PR to join the league!
+# 8. Create a PR to join the league!
 ```
 
 ## 📖 How It Works
@@ -48,7 +52,9 @@ git push origin main
 4. **Scoring**: Automated gameweek processing calculates points from real match data
 5. **Competition**: League standings updated automatically after each gameweek
 
-### Key Commands
+### Key Commands (Now with Ink React UI!)
+
+The CLI now features a modern React-based interface using Ink:
 
 the `gfl` command line utility
 
@@ -61,6 +67,14 @@ gfl simulate       # Simulate points for upcoming gameweek
 gfl deadline       # Show next transfer deadline
 gfl validate       # Validate your team locally
 ```
+
+#### Interactive Mode Features
+- 🎨 **React Components**: Built with Ink for smooth, flicker-free updates
+- 🌈 **Gradient Text**: Beautiful rainbow gradients for titles
+- ⚡ **Real-time Updates**: UI updates without screen clearing
+- 🎮 **Smooth Navigation**: Responsive keyboard controls
+- 📊 **Dynamic Layouts**: Flexible box layouts that adapt to content
+- 🔄 **Loading Spinners**: Smooth animations during async operations
 
 ## 🏆 Game Rules
 
@@ -135,6 +149,14 @@ This is a novel concept in active development. Current features:
 - [ ] GitHub Actions workflows
 - [ ] Points calculation engine
 - [ ] Web dashboard
+
+### New: Ink-Powered CLI
+The CLI has been completely rebuilt using Ink (React for CLIs):
+- Modern component-based architecture
+- Smooth animations and transitions
+- Real-time UI updates
+- Beautiful gradient effects
+- Responsive keyboard navigation
 
 ## 📝 License
 
