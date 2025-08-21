@@ -1,6 +1,8 @@
 # Git Football League
 
-A revolutionary approach to Fantasy Football where software engineers use git workflows, pull requests, and CI/CD pipelines to manage their teams. This is the world's first "Infrastructure as Game" implementation.
+> Fantasy Football, Forked
+
+A revolutionary approach to Fantasy Football using git workflows, pull requests, to manage teams and CI/CD pipelines to enforce the rules.
 
 ## 🎮 What Makes This Unique?
 
@@ -26,8 +28,8 @@ git remote add upstream https://github.com/devops-games/fantasy-football.git
 # 4. Install dependencies
 npm install
 
-# 5. Create your team
-npm run ffl:create-team
+# 5. Link the cli
+npm link
 
 # 6. Commit and push
 git add teams/{your-github-username}/
@@ -48,13 +50,16 @@ git push origin main
 
 ### Key Commands
 
+the `gfl` command line utility
+
+
 ```bash
-npm run ffl:create-team    # Interactive team creation
-npm run ffl:transfer       # Make transfers for upcoming gameweek  
-npm run ffl:status         # View your team and league position
-npm run ffl:simulate       # Simulate points for upcoming gameweek
-npm run ffl:deadline       # Show next transfer deadline
-npm run ffl:validate       # Validate your team locally
+gfl create-team    # Interactive team creation
+gfl transfer       # Make transfers for upcoming gameweek  
+gfl status         # View your team and league position
+gfl simulate       # Simulate points for upcoming gameweek
+gfl deadline       # Show next transfer deadline
+gfl validate       # Validate your team locally
 ```
 
 ## 🏆 Game Rules
@@ -72,7 +77,7 @@ Based on official Fantasy Premier League rules:
 
 ### Repository Structure
 ```
-fantasy-football-league/
+gfl/
 ├── .github/workflows/     # GitHub Actions for validation & scoring
 ├── data/
 │   ├── players/          # Player database and prices
@@ -126,7 +131,7 @@ Every PR triggers automated validation:
 This is a novel concept in active development. Current features:
 - [x] Core architecture design
 - [x] Validation system design
-- [ ] CLI tool implementation
+- [x] CLI tool implementation
 - [ ] GitHub Actions workflows
 - [ ] Points calculation engine
 - [ ] Web dashboard
@@ -137,9 +142,7 @@ MIT License - See [LICENSE](./LICENSE) for details
 
 ## 🙏 Acknowledgments
 
-- Inspired by Fantasy Premier League
-- Built for the developer community
-- Powered by GitHub Actions
+- Friday brown bag for inspiring this idea
 
 ---
 
