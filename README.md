@@ -19,6 +19,18 @@ Unlike traditional fantasy football platforms, GFL uses git as the game engine:
 
 Every action creates a permanent record in git history. No black box algorithms, no hidden data - just transparent, auditable gameplay through version control.
 
+## ⚠️ Early Development Notice
+
+**This is an early experimental version** - we're still figuring out how all the pieces fit together. Much of this is theoretical at this stage, and we're actively exploring the best ways to make git-based fantasy football a reality.
+
+We welcome contributions, ideas, and collaboration! If you're interested in helping shape how this works, please:
+- Open issues for discussion
+- Submit PRs with improvements
+- Share your thoughts on the concept
+- Help us solve the technical challenges
+
+Together we can create something truly unique for the developer community.
+
 ## 🎮 What Makes This Unique?
 
 This isn't just another fantasy football app. It's a game played entirely through git:
